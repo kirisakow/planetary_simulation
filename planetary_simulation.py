@@ -18,13 +18,6 @@ class Planet:
         self.Fnx = None
         self.Fny = None
 
-    def draw(self, screen):
-        pygame.draw.circle(screen, self.color,
-                           (self.pos.x, self.pos.y), self.radius)
-
-    def orbit(self, trace):
-        pygame.draw.rect(trace, self.color, (self.pos.x, self.pos.y, 2, 2))
-
     def update_vel(self):
         # Calculates acceleration in x- and y-axis for body 1.
         ax = self.Fnx/self.mass
@@ -59,8 +52,25 @@ class Planet:
 
 
 class Motion:
-    def __init__(self, bodies):
+    def __init__(self, bodies, screen, trace):
         self.bodies = bodies
+        self.screen = screen
+        self.trace = trace
+
+    def draw(self, body):
+        pygame.draw.circle(
+            surface=self.screen,
+            color=body.color,
+            center=(body.pos.x, body.pos.y),
+            radius=body.radius
+        )
+
+    def orbit(self, body):
+        pygame.draw.rect(
+            surface=self.trace,
+            color=body.color,
+            rect=(body.pos.x, body.pos.y, 2, 2)
+        )
 
     def update(self):
         for bodyi in self.bodies:
@@ -72,8 +82,8 @@ class Motion:
                     bodyi.Fnx += dFx
                     bodyi.Fny += dFy
             bodyi.update_vel()
-            bodyi.draw(screen)
-            bodyi.orbit(trace)
+            self.draw(bodyi)
+            self.orbit(bodyi)
 
 
 #
@@ -103,7 +113,7 @@ if __name__ == '__main__':
     moon = Planet()  # the second moon
 
     bodies = [earth, luna]
-    motion = Motion(bodies)
+    motion = Motion(bodies=bodies, screen=screen, trace=trace)
 
     clock = pygame.time.Clock()
 
