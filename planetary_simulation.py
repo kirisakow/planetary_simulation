@@ -1,6 +1,7 @@
 from math import sin, cos, sqrt, atan2, pi
 import glm
 import pygame
+import sys
 
 
 class Planet:
@@ -98,19 +99,17 @@ if __name__ == '__main__':
     moon = Planet()  # the second moon
     bodies = [earth, luna]
 
-    running = True
     clock = pygame.time.Clock()
 
-    while running:  # if user clicks close window
+    while True:  # if user clicks close window
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                sys.exit()
+                pygame.quit()
 
         screen.fill((0, 0, 0))
         pygame.Surface.blit(screen, trace, (0, 0))
         motion()
 
         pygame.display.flip()  # update? flip?
-
-    pygame.quit()
