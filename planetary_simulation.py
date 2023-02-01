@@ -56,20 +56,25 @@ class Planet:
         return Fx, Fy
 
 
-def motion():
-    for i in range(0, len(bodies)):
-        Fnx = 0  # net force
-        Fny = 0
-        for j in range(0, len(bodies)):
-            if bodies[i] != bodies[j]:
-                Fnx += (bodies[i].move(bodies[j]))[0]
-                Fny += (bodies[i].move(bodies[j]))[1]
-            elif bodies[i] == bodies[j]:
-                continue
-        bodies[i].update_vel(Fnx, Fny)
-        bodies[i].draw(screen)
-        bodies[i].orbit(trace)
-        Fnx, Fny = 0, 0
+class Motion:
+    def __init__(self, bodies):
+        self.bodies = bodies
+
+    def update(self):
+        bodies = self.bodies
+        for i in range(0, len(bodies)):
+            Fnx = 0  # net force
+            Fny = 0
+            for j in range(0, len(bodies)):
+                if bodies[i] != bodies[j]:
+                    Fnx += (bodies[i].move(bodies[j]))[0]
+                    Fny += (bodies[i].move(bodies[j]))[1]
+                elif bodies[i] == bodies[j]:
+                    continue
+            bodies[i].update_vel(Fnx, Fny)
+            bodies[i].draw(screen)
+            bodies[i].orbit(trace)
+            Fnx, Fny = 0, 0
 
 
 #
@@ -97,7 +102,9 @@ if __name__ == '__main__':
         vel=glm.vec2(1023, 0)
     )
     moon = Planet()  # the second moon
+
     bodies = [earth, luna]
+    motion = Motion(bodies)
 
     clock = pygame.time.Clock()
 
@@ -110,6 +117,6 @@ if __name__ == '__main__':
 
         screen.fill((0, 0, 0))
         pygame.Surface.blit(screen, trace, (0, 0))
-        motion()
+        motion.update()
 
         pygame.display.flip()  # update? flip?
