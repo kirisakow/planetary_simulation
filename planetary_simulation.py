@@ -1,5 +1,5 @@
 from math import sin, cos, sqrt, atan2, pi
-import glm
+from pygame.math import Vector2 as vec2
 import pygame
 import sys
 
@@ -9,7 +9,7 @@ class Planet:
     G = 6.67428e-11  # G constant
     scale = 1 / 1409466.667  # 1 m = 1/1409466.667 pixlar
 
-    def __init__(self, *, pos=glm.vec2(0, 0), radius=0, color=(0, 0, 0), mass=0, vel=glm.vec2(0, 0)):
+    def __init__(self, *, pos=vec2(0, 0), radius=0, color=(0, 0, 0), mass=0, vel=vec2(0, 0)):
         self.pos = pos  # y-coordinate pygame-window
         self.radius = radius
         self.color = color
@@ -97,18 +97,18 @@ if __name__ == '__main__':
     FPS = 60  # how quickly/frames per second our game should update. Change?
 
     earth = Planet(
-        pos=glm.vec2(450, 325),
+        pos=vec2(450, 325),
         radius=30,
         color=(0, 0, 255),
         mass=5.97219 * 10**24,
-        vel=glm.vec2(-24.947719394204714 / 2, 0)
+        vel=vec2(-24.947719394204714 / 2, 0)
     )
     luna = Planet(
-        pos=glm.vec2(450, 575 / 11),
+        pos=vec2(450, 575 / 11),
         radius=10,
         color=(128, 128, 128),
         mass=7.349 * 10**22,
-        vel=glm.vec2(1023, 0)
+        vel=vec2(1023, 0)
     )
     moon = Planet()  # the second moon
 
