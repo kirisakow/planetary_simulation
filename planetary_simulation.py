@@ -15,6 +15,8 @@ class Planet:
         self.color = color
         self.mass = mass
         self.vel = vel  # velocity in the y axis
+        self.Fnx = None
+        self.Fny = None
 
     def draw(self, screen):
         pygame.draw.circle(screen, self.color,
@@ -23,10 +25,10 @@ class Planet:
     def orbit(self, trace):
         pygame.draw.rect(trace, self.color, (self.pos.x, self.pos.y, 2, 2))
 
-    def update_vel(self, Fnx, Fny):
+    def update_vel(self):
         # Calculates acceleration in x- and y-axis for body 1.
-        ax = Fnx/self.mass
-        ay = Fny/self.mass
+        ax = self.Fnx/self.mass
+        ay = self.Fny/self.mass
         self.vel.x -= ((ax * Planet.dt)/Planet.scale)
         self.vel.y -= ((ay * Planet.dt)/Planet.scale)
         self.update_pos()
@@ -61,20 +63,17 @@ class Motion:
         self.bodies = bodies
 
     def update(self):
-        bodies = self.bodies
-        for i in range(0, len(bodies)):
-            Fnx = 0  # net force
-            Fny = 0
-            for j in range(0, len(bodies)):
-                if bodies[i] != bodies[j]:
-                    Fnx += (bodies[i].move(bodies[j]))[0]
-                    Fny += (bodies[i].move(bodies[j]))[1]
-                elif bodies[i] == bodies[j]:
-                    continue
-            bodies[i].update_vel(Fnx, Fny)
-            bodies[i].draw(screen)
-            bodies[i].orbit(trace)
-            Fnx, Fny = 0, 0
+        for bodyi in self.bodies:
+            bodyi.Fnx = 0  # net force
+            bodyi.Fny = 0
+            for bodyj in self.bodies:
+                if bodyi != bodyj:
+                    dFx, dFy = bodyi.move(bodyj)
+                    bodyi.Fnx += dFx
+                    bodyi.Fny += dFy
+            bodyi.update_vel()
+            bodyi.draw(screen)
+            bodyi.orbit(trace)
 
 
 #
