@@ -2,8 +2,6 @@ from math import sin, cos, sqrt, atan2, pi
 import glm
 import pygame
 
-pygame.init()
-
 
 class Planet:
     dt = 1 / 100
@@ -73,41 +71,46 @@ def motion():
         Fnx, Fny = 0, 0
 
 
-screen = pygame.display.set_mode([900, 650])  # width - height
-trace = pygame.Surface((900, 650))
-pygame.display.set_caption("Moon simulation")
-FPS = 60  # how quickly/frames per second our game should update. Change?
+#
+# Main
+#
+if __name__ == '__main__':
+    pygame.init()
+    screen = pygame.display.set_mode([900, 650])  # width - height
+    trace = pygame.Surface((900, 650))
+    pygame.display.set_caption("Moon simulation")
+    FPS = 60  # how quickly/frames per second our game should update. Change?
 
-earth = Planet(
-    pos=glm.vec2(450, 325),
-    radius=30,
-    color=(0, 0, 255),
-    mass=5.97219 * 10**24,
-    vel=glm.vec2(-24.947719394204714 / 2, 0)
-)
-luna = Planet(
-    pos=glm.vec2(450, 575 / 11),
-    radius=10,
-    color=(128, 128, 128),
-    mass=7.349 * 10**22,
-    vel=glm.vec2(1023, 0)
-)
-moon = Planet()  # the second moon
-bodies = [earth, luna]
+    earth = Planet(
+        pos=glm.vec2(450, 325),
+        radius=30,
+        color=(0, 0, 255),
+        mass=5.97219 * 10**24,
+        vel=glm.vec2(-24.947719394204714 / 2, 0)
+    )
+    luna = Planet(
+        pos=glm.vec2(450, 575 / 11),
+        radius=10,
+        color=(128, 128, 128),
+        mass=7.349 * 10**22,
+        vel=glm.vec2(1023, 0)
+    )
+    moon = Planet()  # the second moon
+    bodies = [earth, luna]
 
-running = True
-clock = pygame.time.Clock()
+    running = True
+    clock = pygame.time.Clock()
 
-while running:  # if user clicks close window
-    clock.tick(FPS)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    while running:  # if user clicks close window
+        clock.tick(FPS)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    screen.fill((0, 0, 0))
-    pygame.Surface.blit(screen, trace, (0, 0))
-    motion()
+        screen.fill((0, 0, 0))
+        pygame.Surface.blit(screen, trace, (0, 0))
+        motion()
 
-    pygame.display.flip()  # update? flip?
+        pygame.display.flip()  # update? flip?
 
-pygame.quit()
+    pygame.quit()
