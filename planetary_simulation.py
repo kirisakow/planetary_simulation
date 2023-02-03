@@ -100,14 +100,14 @@ if __name__ == '__main__':
         pos=vec2(450, 325),
         radius=30,
         color=(0, 0, 255),
-        mass=5.97219 * 10**24,
+        mass=5.97219e+24,
         vel=vec2(-24.947719394204714 / 2, 0)
     )
     luna = Planet(
         pos=vec2(450, 575 / 11),
         radius=10,
         color=(128, 128, 128),
-        mass=7.349 * 10**22,
+        mass=7.349e+22,
         vel=vec2(1023, 0)
     )
     moon = Planet()  # the second moon
